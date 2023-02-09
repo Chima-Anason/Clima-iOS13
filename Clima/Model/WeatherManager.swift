@@ -16,21 +16,25 @@ protocol WeatherManagerDelegate {
 }
 
 struct WeatherManager {
-    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?units=metric&appid={key}"
+    
+    let apiKey = Bundle.main.object(forInfoDictionaryKey: "API_KEY") as? String
+    let weatherURL = "https://api.openweathermap.org/data/2.5/weather?units=metric"
     
     //declare a delegate
     var delegate: WeatherManagerDelegate?
     
     func fetchWeather(cityName:String)  {
-        let urlString = "\(weatherURL)&q=\(cityName)"
-        performRequest(with: urlString)
+        
+            let urlString = "\(weatherURL)&appid=\(apiKey!)&q=\(cityName)"
+            performRequest(with: urlString)
+        
         
     }
     
     
     //This function gets current location (when we tap on the location icon on the top left)
     func fetchWeather(latitude: CLLocationDegrees, longitude: CLLocationDegrees){
-        let urlString = "\(weatherURL)&lat=\(latitude)&lon=\(longitude)"
+        let urlString = "\(weatherURL)&appid=\(apiKey!)&lat=\(latitude)&lon=\(longitude)"
         performRequest(with: urlString)
         
     }
